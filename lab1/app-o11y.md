@@ -1,0 +1,214 @@
+<!-- Source: https://grafana.github.io/observability-workshop-breakouts/lab1/app-o11y -->
+
+# 1.2. Application Observability
+
+*Frontend Observability told us every page on the ecommerce site is throwing 500s. The browser sees the symptom, but the cause is on the server side. Time to walk into the backend and find out which service is the problem.*
+
+Grafana Cloud [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) is an APM solution built to help your team minimize the mean time to repair (MTTR) for application problems. It uses OpenTelemetry, Grafana Alloy, and pre-built dashboards so every service in your stack is visible from one place.
+
+Navigate to the **Application Observability** app in Grafana.
+
+![Application Observability - getting started](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.2-app-instructions-7646e4bfc3a9fa3fa80668402e0b2561.png)
+
+---
+
+## Question 1: Service languages
+
+**What languages are used for this demo app?**
+
+Before troubleshooting, it's useful to know what we're looking at. The **Service Inventory** lists every OpenTelemetry-instrumented service in the app and auto-detects the runtime language. One glance and you know how heterogeneous your stack is.
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+Quite a few:
+
+- Go
+- Java
+- .NET
+- C++
+- Ruby
+- Erlang
+- JavaScript
+- PHP
+- Python
+- Rust
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Look at the icons in the **Technology** column - hover an icon if you aren't sure what it represents.
+
+![Services tab with technology icons](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-app-o11y-86fb8ebb05dd1bcc5f9a2b9f0ffa2d21.png)
+
+</details>
+
+---
+
+## Question 2: Error rate
+
+**What error rate percentage has the `productcatalogservice` reached over the last 1 hour?**
+
+The Frontend O11y errors mentioned `/api/products` - which strongly implies `productcatalogservice`. Click into that service and you'll see request rate, error rate, and latency right at the top: the three signals you check first when something looks off.
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+It can range between **20% and 100%**.
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Click on `productcatalogservice`.
+4. Hover over the peak in the **Errors** panel.
+
+![Errors panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-app-o11y-60072bbc2302e294bac7a6ca8291f805.png)
+
+</details>
+
+---
+
+## Question 3: Error message
+
+**What error message is the `productcatalogservice` throwing when it errors?**
+
+A 20-100% error rate is severe. Now we need the actual exception. There are two routes - through the trace waterfall (drilling into a single failing request) or through the service's logs - and they should converge on the same root cause from different angles. Traces and logs are two views of the same incident: a trace tells you "this one request failed and here's the chain," while logs tell you "here's everything the process said out loud."
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+There are a few answers depending on which path you take:
+
+- **Traces approach:** `pq: sorry, too many clients already`
+- **Logs approach:**
+   - `panic: runtime error: invalid memory address or nil pointer dereference`
+   - `pq: sorry, too many clients already`
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Click on `productcatalogservice`.
+
+### Option 1 - Traces approach
+
+1.  Within the **Errors** panel, click the **Traces** button.
+
+   ![Errors panel - Traces button](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-1-4b5073430624b09bdc316e08174a9630.png)
+2.  Click any **Trace ID** in the table - they all show error traces from the product catalog service.
+
+   ![Span detail](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-2-e5c8a61b25c4791246dd604aa5c984be.png)
+3.  The trace waterfall appears. Click the `productcatalogservice` span with a red circle next to it.
+4.  Click **Events (2)** and expand both events.
+
+   ![Events](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-3-86811c15a2afd4c2c7ea13bd4b61a400.png)
+5.  The `exception` and `error` events both have the value `pq: sorry, too many clients already`.
+
+   ![Logs tab](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-4-0ffcaac4b43b01f3e14f08f2500cebab.png)
+
+### Option 2 - Logs approach
+
+1.  Click the **Logs** tab at the top to see all logs generated by this service.
+2.  You'll see many `pq: sorry, too many clients already` logs and, further down, a stack trace including `panic: runtime error: invalid memory address or nil pointer dereference`.
+
+   ![Logs](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-5-c6f2a5195877e7fcc1f91359ed4aa2e5.png)
+
+</details>
+
+---
+
+## Question 4: Erroring endpoint
+
+**Which endpoint or endpoints are erroring within the `productcatalogservice`?**
+
+`pq: sorry, too many clients already` is a Postgres connection-exhaustion error - the service is running out of database connections. But is it happening on every endpoint, or just one? The **Operations** panel breaks the service's traffic down by endpoint so we can localize.
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+`oteldemo.ProductCatalogService/ListProducts`
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Click on `productcatalogservice`.
+4. In the **Operations** panel, look for the only endpoint with a non-zero **Errors** column.
+
+![Errored endpoint](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-app-o11y-2b2bd91be4e8f0fc572c23aa77d75e3f.png)
+
+</details>
+
+---
+
+## Question 5: Service interactions
+
+**What services interact with the `recommendationservice`?**
+
+While we're here, let's get the lay of the land. The recommendation service is sitting next to productcatalog in the call graph - what calls it, and what does it call? The service detail view splits this into **Inbound** (callers) and **Outbound & databases** (dependencies), and the [Service map](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) tab gives you the same picture as a graph.
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+There are three:
+
+- **Outbound & databases:**
+   - `flagd`
+   - `productcatalogservice`
+- **Inbound:**
+   - `frontend`
+   - `chatservice`
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Click on `recommendationservice`.
+4. Downstream services are in the **Outbound & databases** panel.
+5. Upstream services are in the **Inbound** panel.
+
+![Service interactions](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-app-o11y-1-e5b8b6efc939a5a968a352f6ab41921d.png)
+
+You can also see this from the **Service map** tab.
+
+![Service map](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-app-o11y-2-50ed8069331ebe6ffd0371e593e915e0.png)
+
+</details>
+
+---
+
+## Question 6: Pod name *(Optional)*
+
+**What's the pod name running the product catalog service?**
+
+Application Observability ties OTel telemetry back to Kubernetes via attributes like `k8s.pod.name`. That's how you jump from "service X is broken" to "pod Y is the one to look at." Grab the pod name now - we'll use it as the bridge into the next lab.
+
+> **Try it:** Find the answer in Grafana before revealing it below.
+
+<details>
+<summary>Show answer</summary>
+
+It will change over time as pods restart, but starts with `productcatalogservice-...` - for example `productcatalogservice-58dffdf697-mjpmw`.
+
+**How to find it:**
+
+1. Open the Application Observability app.
+2. Make sure you're on the **Services** tab.
+3. Click on `productcatalogservice`.
+4. Click the **Kubernetes** button and find the `k8s.pod.name` entry.
+
+![Pod name](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-app-o11y-29defb14d258aa09d1702ce42052915a.png)
+
+</details>
