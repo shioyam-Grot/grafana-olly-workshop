@@ -1,31 +1,31 @@
 <!-- Source: https://grafana.github.io/observability-workshop-breakouts/ -->
 
-# Welcome
+# ようこそ
 
-Welcome to the **Grafana Observability Workshop Breakouts**. Across three hands-on labs, you'll work through troubleshooting scenarios in a real Grafana Cloud stack using:
+**Grafana Observability Workshop Breakouts** へようこそ。3つのハンズオンラボを通して、実際の Grafana Cloud スタック上で次の機能を使いながらトラブルシューティングのシナリオに取り組みます。
 
-- **Frontend Observability**, **Application Observability**, and **Kubernetes Monitoring**
-- **Knowledge Graph** (Entity Graph and RCA Workbench)
-- **Grafana Assistant** (AI)
+- **Frontend Observability**、**Application Observability**、**Kubernetes Monitoring**
+- **Knowledge Graph**（Entity Graph と RCA Workbench）
+- **Grafana Assistant**（AI）
 
-## Pick your color mode
+## 必要なもの
 
-Prefer light or dark? Toggle in the top right corner.
+- 最新の Web ブラウザ
+- Grafana Cloud インスタンスの URL（ファシリテーターから提供されます）
+- 個人用のログイン情報（ファシリテーターから提供されます）
 
-## What you'll need
-
-- A modern web browser
-- A URL to a Grafana Cloud instance (provided by your facilitator)
-- A personal login (provided by your facilitator)
-
-> **INFO**
+> **情報**
 >
-> If you didn't receive a username and password, please speak to your friendly facilitator!
+> ユーザー名とパスワードを受け取っていない場合は、お近くのファシリテーターに声をかけてください！
 
-## How it works
+## 進め方
 
-Each lab contains a set of questions. We **encourage you to attempt each question on your own first**, and only reveal the answer afterwards by clicking **Show answer** under each question.
+各ラボにはいくつかの質問があります。**まずは自分で各質問に取り組んでみて**、その後で各質問の下にある **答えを表示** をクリックして答えを確認してください。
 
-You'll have around 20 minutes per breakout.
+各ブレイクアウトの時間は約20分です。
 
-Click **Next** to start with Lab 1.
+それでは [Lab 1](lab1/index.md) から始めましょう。
+
+- [Lab 1 - Grafana Observability 入門](lab1/index.md)
+- [Lab 2 - Knowledge Graph による根本原因分析](lab2/index.md)
+- [Lab 3 - AI を活用した Observability](lab3/index.md)

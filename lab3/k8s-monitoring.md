@@ -1,99 +1,99 @@
 <!-- Source: https://grafana.github.io/observability-workshop-breakouts/lab3/k8s-monitoring -->
 
-# 3.2. Query Kubernetes Monitoring data
+# 3.2. Kubernetes Monitoring のデータをクエリする
 
-*In Lab 1.3 you clicked through Workloads, into a pod, into Containers, into the right-sizing gauge. Now ask Assistant for the same answers in plain English and see how the routing changes.*
+*Lab 1.3 では、Workloads → Pod → Containers → right-sizing の gauge、とクリックしてたどりました。今度は Assistant に同じ答えを普段の言葉で尋ね、たどる経路がどう変わるかを見てみましょう。*
 
-Open a **new conversation** with Assistant for this section so it starts with a clean slate.
+このセクションでは、Assistant で**新しい会話**を開き、まっさらな状態から始めてください。
 
 ---
 
-## Question 1: Container health
+## 質問 1: コンテナの健全性
 
-**What's the health of my containers?**
+**コンテナの健全性はどうなっていますか？**
 
-A great opening prompt because it's the kind of question that takes a *human* a few minutes to answer manually - you'd scan the cluster, look for restart counts, check pod events, eyeball errors. Assistant should give you the same summary in one shot, naming the same usual suspects we found in Lab 1.
+最初のプロンプトとして最適な質問です。*人間*が手作業で答えようとすると数分かかる種類の質問だからです。クラスターを見渡し、再起動回数を探し、Pod のイベントを確認し、エラーにざっと目を通す必要があります。Assistant なら同じ要約を一度で出してくれるはずで、Lab 1 で見つけたのと同じおなじみの問題サービスが挙がるはずです。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Assistant highlights containers with repetitive restarts, bad k8s events, and errors - `productcatalogservice`, `recommendationservice`, and `checkoutservice` show concerning health.
+Assistant は、再起動を繰り返しているコンテナ、問題のある k8s イベント、エラーを指摘します。`productcatalogservice`、`recommendationservice`、`checkoutservice` の健全性に懸念があると示されます。
 
-![Container health response](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-grafana-assistant-1-d6147d7e5eaa9810c9517451863c5492.png)
+![コンテナの健全性に関する回答](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-grafana-assistant-1-d6147d7e5eaa9810c9517451863c5492.png)
 
 </details>
 
 ---
 
-## Question 2: Image and version
+## 質問 2: イメージとバージョン
 
-**What image and version is being used for the `productcatalogservice`?**
+**`productcatalogservice` で使われているイメージとバージョンは何ですか？**
 
-Same image-spec lookup as Lab 1.3 - except instead of finding the Containers panel and reading the IMAGE SPEC column, you just ask. Faster, but still verify by expanding the tool call.
+Lab 1.3 と同じイメージ仕様の確認ですが、Containers パネルを探して IMAGE SPEC 列を読む代わりに、ただ聞くだけです。より速くなりますが、tool call を展開して検証することは忘れないでください。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
 `productcatalogservice:v3.24.5`
 
-![Prompt](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-grafana-assistant-1-1244a4bac306a89f6112eba060f38e19.png) ![Answer](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-grafana-assistant-2-0728693f68d5287105f25f73474a830f.png)
+![プロンプト](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-grafana-assistant-1-1244a4bac306a89f6112eba060f38e19.png) ![回答](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-grafana-assistant-2-0728693f68d5287105f25f73474a830f.png)
 
 </details>
 
 ---
 
-## Question 3: Right-sizing
+## 質問 3: right-sizing
 
-**Is the `productcatalogservice` right-sized?**
+**`productcatalogservice` のサイズは適切ですか？**
 
-This was the multi-step deep-dive in Lab 1.3 - click into the container, read the gauge, compare to the recommendation. Assistant pulls the same [right-sizing data](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/optimize-resource-usage/) and delivers the verdict in one prompt. It isn't a new data source - it's a faster route into the same Grafana data you'd otherwise navigate to manually, and trust comes from being able to verify that.
+Lab 1.3 では、複数のステップを踏んで深掘りした質問です。コンテナをクリックし、gauge を読み、推奨値と比較しました。Assistant は同じ[right-sizing のデータ](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/optimize-resource-usage/)を取得し、1つのプロンプトで結論を出します。新しい data source ではありません。本来なら手作業でたどる同じ Grafana のデータに、より速くたどり着くための経路です。そして、それを検証できることが信頼につながります。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-No - Assistant reports the service as oversized on memory (assigned ~100 MiB but using far less), the same verdict you reached manually in Lab 1.3.
+いいえ。Assistant は、このサービスのメモリが oversized である（約 100 MiB が割り当てられているが、使用量ははるかに少ない）と報告します。Lab 1.3 で手作業でたどり着いたのと同じ結論です。
 
-![Right-sizing response](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-grafana-assistant-1-14e694ad6caf7c47a9628146f160a0fe.png)
+![right-sizing に関する回答](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-grafana-assistant-1-14e694ad6caf7c47a9628146f160a0fe.png)
 
 </details>
 
 ---
 
-## Question 4: Deployment namespace *(Optional)*
+## 質問 4: デプロイ先の Namespace *（任意）*
 
-**What namespace is my app deployed in?**
+**アプリはどの Namespace にデプロイされていますか？**
 
-A single-prompt question that would otherwise take a few clicks through the cluster view. The kind of detail it's annoying to remember where to find.
+本来ならクラスタービューを何回かクリックしてたどる必要がある質問ですが、1つのプロンプトで済みます。どこで確認できるかを覚えておくのが面倒な種類の情報です。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Your main application is deployed in the **`ecommerce-prod`** namespace.
+メインのアプリケーションは **`ecommerce-prod`** Namespace にデプロイされています。
 
-![Namespace response](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-grafana-assistant-1-e2029e3c937eabb97eae2123bec6716a.png)
+![Namespace に関する回答](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-grafana-assistant-1-e2029e3c937eabb97eae2123bec6716a.png)
 
 </details>
 
 ---
 
-## Question 5: Cluster resources *(Optional)*
+## 質問 5: クラスターのリソース *（任意）*
 
-**What resources does my k8s cluster have?**
+**k8s クラスターにはどのようなリソースがありますか？**
 
-Same physical-capacity question from the **Clusters** view in Lab 1.3 - now Assistant produces a full cluster summary including node count, CPU, memory, storage, and pod capacity. The kind of overview you'd otherwise piece together from a few panels.
+Lab 1.3 の **Clusters** ビューで確認した物理キャパシティと同じ質問です。今回は Assistant が、ノード数、CPU、メモリ、ストレージ、Pod のキャパシティを含むクラスター全体の要約を作成します。本来ならいくつかのパネルから情報を組み合わせて把握する必要がある概要です。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
 ```text
 Kubernetes cluster resource summary
@@ -119,41 +119,41 @@ Maximum pods: 330 total (110 per node)
 Current allocatable: 330 pod slots available
 ```
 
-![Prompt](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-grafana-assistant-1-06d25b7351ddb8a0af105517883a2e0b.png)
+![プロンプト](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-grafana-assistant-1-06d25b7351ddb8a0af105517883a2e0b.png)
 
 </details>
 
 ---
 
-## Question 6: Assistant rule *(Optional)*
+## 質問 6: Assistant のルール *（任意）*
 
-**Create a rule scoping Assistant to the `ecommerce-prod` namespace**
+**Assistant の対象を `ecommerce-prod` Namespace に限定するルールを作成してください。**
 
-The more you use Assistant, the more you'll want it scoped to *your* corner of the world. Rules let you set persistent context - "I'm only ever interested in this namespace" - so it stops searching the whole cluster every time.
+Assistant を使い込むほど、*自分の*担当範囲に絞って使いたくなってきます。ルールを使うと、「自分が関心があるのはこの Namespace だけ」といった永続的なコンテキストを設定できるので、毎回クラスター全体を検索しなくなります。
 
-Try creating a rule that scopes Assistant to applications and infrastructure in the `ecommerce-prod` namespace. Then open a new conversation and ask "Tell me about what's deployed".
+`ecommerce-prod` Namespace 内のアプリケーションとインフラストラクチャに Assistant の対象を限定するルールを作成してみてください。その後、新しい会話を開いて「何がデプロイされているか教えて」と聞いてみましょう。
 
-> **Try it:** Ask Grafana Assistant before revealing the answer.
+> **試してみよう:** 答えを開く前に、Grafana Assistant に聞いてみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-If this works, asking the follow-up question and expanding any tool call should show the filter `namespace=ecommerce-prod`.
+うまくいっていれば、続けて質問したあとにいずれかの tool call を展開すると、`namespace=ecommerce-prod` というフィルターが表示されるはずです。
 
-Opening the rules page:
+ルールのページを開きます。
 
-![Rules page](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-1-30325119ae48886023b4537354b60d66.png)
+![ルールのページ](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-1-30325119ae48886023b4537354b60d66.png)
 
-Click **Create rule**:
+**Create rule** をクリックします。
 
 ![Create rule](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-2-893a23982521eb3e588435c23b38e5cd.png)
 
-Adding the custom rule:
+カスタムルールを追加します。
 
-![Adding custom rule](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-3-62900415227351fefbd77a49fe23c73d.png)
+![カスタムルールの追加](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-3-62900415227351fefbd77a49fe23c73d.png)
 
-The rule in action:
+ルールが適用された状態です。
 
-![Rule in action](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-4-c2c5d175b77484662f89ff1b3192274c.png)
+![ルールの適用例](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-grafana-assistant-4-c2c5d175b77484662f89ff1b3192274c.png)
 
 </details>

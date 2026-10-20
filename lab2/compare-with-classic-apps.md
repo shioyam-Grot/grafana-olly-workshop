@@ -1,128 +1,128 @@
 <!-- Source: https://grafana.github.io/observability-workshop-breakouts/lab2/compare-with-classic-apps -->
 
-# 2.2. Compare with the classic observability apps
+# 2.2. 従来の Observability アプリと比較する
 
-*You just answered a series of questions with Knowledge Graph in a few clicks. Now try the same questions with only the Lab 1 toolkit - App O11y, K8s Monitoring - and time yourself.*
+*Knowledge Graph を使って、いくつかの質問に数クリックで答えられました。今度は同じ質問に Lab 1 のツール（App O11y、K8s Monitoring）だけで答えてみて、かかった時間を計ってみましょう。*
 
-The classic apps can answer all of these, and they do it well - this isn't about replacing them. The point is *how* they answer: how many panels you need to load, how many tabs to switch, how much context you have to hold in your head. That's the difference Knowledge Graph is built to address.
+従来のアプリでもこれらの質問にはすべて答えられますし、うまく答えられます。従来のアプリを置き換えようという話ではありません。ポイントは*どのように*答えるかです。いくつのパネルを読み込む必要があるか、いくつのタブを切り替えるか、どれだけのコンテキストを頭の中に保持しておく必要があるか。Knowledge Graph はまさにこの違いを解消するために作られています。
 
-> **INFO**
+> **情報**
 >
-> The walkthroughs below take the Knowledge Graph path so you have a reference. Try the classic-app path on your own first, then reveal.
+> 以下の解説は、参考として Knowledge Graph を使う方法で説明しています。まずは従来のアプリを使う方法で自分で試してから、答えを開いてください。
 
 ---
 
-## Question 1: Memory assigned
+## 質問 1: 割り当てられたメモリ
 
-**How much memory is assigned to the `productcatalogservice` workload?**
+**`productcatalogservice` workload に割り当てられているメモリはどのくらいですか？**
 
-You already answered this in Lab 1.3 by clicking through to the workload view in K8s Monitoring. In Knowledge Graph the same Workload Memory panel lives one click into the KPI drawer for the service - no app switch.
+Lab 1.3 では、K8s Monitoring の workload ビューまでクリックしてたどり、この質問に答えました。Knowledge Graph では、同じ Workload Memory パネルがサービスの KPI drawer を開くだけで表示されます。アプリを切り替える必要はありません。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
 **100 MiB**
 
-**How to find it (Knowledge Graph path):**
+**確認方法（Knowledge Graph を使う場合）:**
 
-1. Use the search bar to show the `productcatalogservice` service, or open the Entity Catalog → **Show all services** and filter for `productcatalogservice`.
-2. Open the **KPI drawer**.
-3. Click the **Kubernetes** tab.
-4. See **memory limits** within the **Workload Memory** panel.
+1. 検索バーで `productcatalogservice` サービスを表示するか、Entity Catalog → **Show all services** を開いて `productcatalogservice` で絞り込みます。
+2. **KPI drawer** を開きます。
+3. **Kubernetes** タブをクリックします。
+4. **Workload Memory** パネルで **memory limits** を確認します。
 
-![Workload memory](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-knowledge-graph-747f787283a6a056f63a4e45ddbc487e.png)
-
-</details>
-
----
-
-## Question 2: Error rate
-
-**What error rate percentage has the `productcatalogservice` reached over the last 24 hours?**
-
-In Lab 1.2 you navigated to the Application Observability service detail page and hovered the Errors panel. The KPI drawer's **Service Overview** tab mirrors that view exactly, just reachable from the same Knowledge Graph entity surface you're already on.
-
-> **Try it:** Find the answer in Grafana before revealing it below.
-
-<details>
-<summary>Show answer</summary>
-
-Between **15% and 40%**.
-
-**How to find it (Knowledge Graph path):**
-
-1. Use the search bar to show the `productcatalogservice`, or open the Entity Catalog → **Show all services** and filter.
-2. Open the **KPI drawer**.
-3. Click the **Service Overview** tab.
-4. Look at the **Errors** panel and see how high the spike gets.
+![workload のメモリ](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-knowledge-graph-747f787283a6a056f63a4e45ddbc487e.png)
 
 </details>
 
 ---
 
-## Question 3: Error message
+## 質問 2: エラー率
 
-**What error message is the `productcatalogservice` throwing when it errors in the last 24 hours?**
+**過去24時間で、`productcatalogservice` のエラー率は最大何パーセントに達しましたか？**
 
-Compare the journey. In Lab 1.2 you went: Services list → service detail → Errors panel → Traces button → pick a trace → expand the span → expand events. That's six clicks before you saw the error string. RCA Workbench compresses that: hover the insight bar, jump straight to logs or traces filtered to the exact insight window. It's context-aware - when you click "Logs" from an insight, the logs are already filtered to the time range and service that insight relates to. You're not applying filters; the workbench is.
+Lab 1.2 では、Application Observability のサービス詳細ページに移動し、Errors パネルにカーソルを合わせました。KPI drawer の **Service Overview** タブはその画面とまったく同じ内容で、すでに開いている Knowledge Graph の entity 画面からそのまま開けます。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-- **Traces approach:** `pq: sorry, too many clients already`
-- **Logs approach:**
+**15%〜40%** です。
+
+**確認方法（Knowledge Graph を使う場合）:**
+
+1. 検索バーで `productcatalogservice` を表示するか、Entity Catalog → **Show all services** を開いて絞り込みます。
+2. **KPI drawer** を開きます。
+3. **Service Overview** タブをクリックします。
+4. **Errors** パネルで、スパイクがどこまで上がっているかを確認します。
+
+</details>
+
+---
+
+## 質問 3: エラーメッセージ
+
+**過去24時間で、`productcatalogservice` がエラーになるとき、どのようなエラーメッセージを出していますか？**
+
+たどる経路を比べてみましょう。Lab 1.2 では、Services 一覧 → サービス詳細 → Errors パネル → Traces ボタン → トレースを選択 → span を展開 → イベントを展開、という順にたどりました。エラーメッセージを見るまでに6回のクリックが必要です。RCA Workbench ならこれを短縮できます。insight のバーにカーソルを合わせ、その insight の時間帯に絞り込まれたログやトレースに直接移動できます。コンテキストを踏まえた動作をするので、insight から「Logs」をクリックすると、ログはすでにその insight に関連する時間範囲とサービスで絞り込まれています。フィルターを適用しているのはあなたではなく、Workbench です。
+
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
+
+<details>
+<summary>答えを表示</summary>
+
+- **トレースから調べる場合:** `pq: sorry, too many clients already`
+- **ログから調べる場合:**
    - `panic: runtime error: invalid memory address or nil pointer dereference`
    - `pq: sorry, too many clients already`
 
-The interesting path here is using the **context-driven RCA Workbench**.
+ここで注目したいのは、**コンテキスト駆動の RCA Workbench** を使う方法です。
 
-1.  Open RCA Workbench with `productcatalogservice` and add connected services (see [the first event question in 2.1](knowledge-graph.md#question-5-first-event)).
-2.  Click the **Summary** tab - it's easier to read, though Timeline works too. As mentioned in [2.1](knowledge-graph.md#question-6-first-to-error), Summary works best for short lists - prefer Timeline when there are many insights, since it lets you expand and collapse what you want to see.
-3.  Hover the red bar of the `oteldemo.ProductCatalogService/ListProducts - ErrorRatioBreach` insight.
+1.  `productcatalogservice` を追加した RCA Workbench を開き、接続されているサービスを追加します（[2.1 の最初のイベントの質問](knowledge-graph.md#question-5-first-event)を参照）。
+2.  **Summary** タブをクリックします。Timeline でも構いませんが、Summary のほうが読みやすくなります。[2.1](knowledge-graph.md#question-6-first-to-error) で触れたとおり、Summary は一覧が短いときに最も効果的です。insight が多い場合は、見たい部分を展開・折りたたみできる Timeline を使いましょう。
+3.  `oteldemo.ProductCatalogService/ListProducts - ErrorRatioBreach` insight の赤いバーにカーソルを合わせます。
 
-   ![ErrorRatioBreach hover](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-1-31501aa9b385e2f4a47dcfdd07baf069.png)
-4.  Click **Logs** - this opens the Logs tab of the KPI drawer at the timeframe of that insight, showing all error messages. You'll see `pq: sorry, too many clients already` and `panic: runtime error: invalid memory address or nil pointer dereference`.
+   ![ErrorRatioBreach にカーソルを合わせた状態](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-1-31501aa9b385e2f4a47dcfdd07baf069.png)
+4.  **Logs** をクリックします。KPI drawer の Logs タブが、その insight の時間帯で開き、すべてのエラーメッセージが表示されます。`pq: sorry, too many clients already` と `panic: runtime error: invalid memory address or nil pointer dereference` が確認できます。
 
-   ![Logs view](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-2-05347edba8e45e35ed21c5533efaa967.png)
-5.  Close the KPI drawer.
-6.  Hover the red bar again and click **Traces** - this opens the Traces tab of the KPI drawer at the same timeframe. Select the error radio button to show only errored traces.
+   ![ログ画面](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-2-05347edba8e45e35ed21c5533efaa967.png)
+5.  KPI drawer を閉じます。
+6.  再度赤いバーにカーソルを合わせ、**Traces** をクリックします。KPI drawer の Traces タブが同じ時間帯で開きます。エラーのラジオボタンを選択し、エラーになったトレースだけを表示します。
 
-   ![Errored traces](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-3-81d13082c5eb2c9eb6ad967e7ad5e949.png)
-7.  Click any trace, then click the `productcatalogservice` span with the red circle.
+   ![エラーになったトレース](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-3-81d13082c5eb2c9eb6ad967e7ad5e949.png)
+7.  任意のトレースをクリックし、赤い丸が付いた `productcatalogservice` の span をクリックします。
 
-   ![Span detail](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-4-8f50449e8bbfb9bb1ea2371414793803.png)
-8.  Expand events for that span - it shows `pq: sorry, too many clients already`.
+   ![span の詳細](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-4-8f50449e8bbfb9bb1ea2371414793803.png)
+8.  その span のイベントを展開すると、`pq: sorry, too many clients already` が表示されます。
 
-   ![Span event](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-5-1dd89c864ddd92ccd8cd63a923a2325f.png)
+   ![span のイベント](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-knowledge-graph-5-1dd89c864ddd92ccd8cd63a923a2325f.png)
 
 </details>
 
 ---
 
-## Question 4: Erroring endpoint
+## 質問 4: エラーが発生しているエンドポイント
 
-**Which endpoint or endpoints are erroring within the `productcatalogservice` over the last 24 hours?**
+**過去24時間で、`productcatalogservice` の中でエラーが発生しているエンドポイントはどれですか？**
 
-Same **Operations** panel concept as Lab 1.2, but you're never leaving the entity view - the panel surfaces inside the KPI drawer for the service, alongside the workload memory data you already saw.
+Lab 1.2 と同じ **Operations** パネルの考え方ですが、entity の画面を離れることはありません。このパネルはサービスの KPI drawer 内に、先ほど見た workload のメモリデータと並んで表示されます。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
 **`oteldemo.ProductCatalogService/ListProducts`**
 
-**How to find it:**
+**確認方法:**
 
-1. Use the search bar to show the `productcatalogservice`, or open the Entity Catalog → **Show all services** and filter.
-2. Open the **KPI drawer**.
-3. Click the **Service Overview** tab.
-4. Look at the **Operations** panel - `oteldemo.ProductCatalogService/ListProducts` shows visible variation in its sparkline.
+1. 検索バーで `productcatalogservice` を表示するか、Entity Catalog → **Show all services** を開いて絞り込みます。
+2. **KPI drawer** を開きます。
+3. **Service Overview** タブをクリックします。
+4. **Operations** パネルを確認します。`oteldemo.ProductCatalogService/ListProducts` の sparkline に目に見える変動があります。
 
-![Operations sparkline](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-knowledge-graph-639cc7d2bad4659bce5983420cc013b5.png)
+![Operations の sparkline](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-knowledge-graph-639cc7d2bad4659bce5983420cc013b5.png)
 
 </details>

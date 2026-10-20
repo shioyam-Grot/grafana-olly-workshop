@@ -1,39 +1,39 @@
 <!-- Source: https://grafana.github.io/observability-workshop-breakouts/lab3/ -->
 
-# Lab 3 - Observability with AI
+# Lab 3 - AI を活用した Observability
 
-In this lab, you'll work through troubleshooting scenarios from Lab 1, but this time using AI - specifically the [Grafana Assistant](https://grafana.com/docs/grafana-cloud/machine-learning/assistant/) - to find the answers.
+このラボでは、Lab 1 のトラブルシューティングのシナリオに再び取り組みますが、今回は AI、具体的には [Grafana Assistant](https://grafana.com/docs/grafana-cloud/machine-learning/assistant/) を使って答えを見つけます。
 
-## Instructions
+## 手順
 
-You'll use the **same environment as Lab 1**. Go to the URL in the slides that references the Lab 1 environment, which has:
+**Lab 1 と同じ環境**を使用します。スライドに記載された Lab 1 環境の URL にアクセスしてください。次の機能が使えます。
 
 1. Frontend Observability
 2. Application Observability
 3. Kubernetes Monitoring
 
-Click the **Grafana Assistant** button in the upper right corner to get started. Keep the same prompt window across questions within a section for context continuity, but start a new prompt window when you change sections so you can see how Assistant processes each request fresh. In the real world, you'd keep one prompt for a single investigation.
+右上の **Grafana Assistant** ボタンをクリックして始めましょう。コンテキストを引き継ぐため、同じセクション内の質問では同じプロンプトウィンドウを使い続けてください。セクションが変わったら新しいプロンプトウィンドウを開き、Assistant が各リクエストをまっさらな状態からどう処理するかを確認しましょう。実際の業務では、1つの調査には1つのプロンプトを使い続けることになります。
 
-![Grafana Assistant entry point](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.1-grafana-assistant-5692ca4ca767d2d550cd20da3d87afc4.png)
+![Grafana Assistant の起動ボタン](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.1-grafana-assistant-5692ca4ca767d2d550cd20da3d87afc4.png)
 
-You have 20 minutes - prioritize the core questions, then try the extra credit if time allows.
+時間は20分です。まずは基本の質問を優先し、時間があれば追加課題に挑戦してください。
 
-> **NOTE**
+> **注記**
 >
-> Because of the variable nature of an LLM assistant, results will not always match between users or match what we found in earlier exercises. If Assistant isn't doing what you want, prompt it again to nudge it in the right direction.
+> LLM アシスタントの性質上、結果はユーザーごとに異なったり、これまでの演習で得られた結果と一致しなかったりすることがあります。Assistant が思いどおりに動かない場合は、もう一度プロンプトを送って正しい方向に導いてください。
 
-### Things to look out for
+### 注目してほしいポイント
 
-**Tool usage in Assistant** - LLMs can hallucinate, so Assistant shows its working. Expand the tool calls to see what it's thinking so you can trust its conclusions.
+**Assistant のツールの使い方** - LLM はハルシネーションを起こすことがあるため、Assistant は作業の過程を表示します。tool call を展開して何を考えているのかを確認すれば、その結論を信頼できるかどうか判断できます。
 
-**An error in the Assistant** - Assistant makes mistakes like humans. We feed the error back so it can reconsider and iterate. If it truly can't conclude, it'll usually tell you (after trying for a while).
+**Assistant のエラー** - Assistant も人間と同じように間違えます。エラーはフィードバックとして Assistant に返され、Assistant は考え直して試行を繰り返します。どうしても結論が出せない場合は、（しばらく試したあとで）たいていその旨を伝えてくれます。
 
-**A graph or logs visualization** - Assistant uses Grafana's visualization library to *show* rather than just *tell*, building trust and breaking up walls of text.
+**グラフやログの可視化** - Assistant は Grafana の可視化ライブラリを使い、言葉で*説明する*だけでなく実際に*見せて*くれます。これにより信頼性が高まり、長い文章の羅列も避けられます。
 
-**Suggested next-step buttons** - Most of the time Assistant suggests follow-up questions or actions. You can also just keep prompting.
+**次のステップの提案ボタン** - ほとんどの場合、Assistant は次に聞くべき質問やアクションを提案してくれます。もちろん、そのままプロンプトを続けても構いません。
 
-- **[3.1. Query Frontend Observability data](frontend-o11y.md)**: You've now solved the productcatalog mystery two ways - one way through Lab 1's apps, and a second, shorter way through Knowledge Graph in Lab 2. There's a third option: don't navigate anywhere. Just ask.
+- **[3.1. Frontend Observability のデータをクエリする](frontend-o11y.md)**: ここまでで、productcatalog の謎を2通りの方法で解きました。1つは Lab 1 のアプリを使う方法、もう1つは Lab 2 の Knowledge Graph を使ったより短い方法です。3つ目の選択肢があります。どこにも移動せず、ただ聞くだけです。
 
-- **[3.2. Query Kubernetes Monitoring data](k8s-monitoring.md)**: In Lab 1.3 you clicked through Workloads, into a pod, into Containers, into the right-sizing gauge. Now ask Assistant for the same answers in plain English and see how the routing changes.
+- **[3.2. Kubernetes Monitoring のデータをクエリする](k8s-monitoring.md)**: Lab 1.3 では、Workloads → Pod → Containers → right-sizing の gauge、とクリックしてたどりました。今度は Assistant に同じ答えを普段の言葉で尋ね、たどる経路がどう変わるかを見てみましょう。
 
-- **[3.3. Query Span Metrics](span-metrics.md)**: In Lab 1.2 you walked through Application Observability service-by-service to track the productcatalog crash loop. Here you'll do it again, but Assistant drives - and you'll see whether it lands the same conclusions you reached manually.
+- **[3.3. Span Metrics をクエリする](span-metrics.md)**: Lab 1.2 では、Application Observability でサービスを1つずつ確認しながら、productcatalog の crash loop を追跡しました。ここではもう一度同じことを行いますが、今回は Assistant が主導します。手作業でたどり着いたのと同じ結論に Assistant がたどり着けるかを確認しましょう。

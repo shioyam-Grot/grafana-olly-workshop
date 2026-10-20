@@ -2,120 +2,120 @@
 
 # 1.1. Frontend Observability
 
-*Imagine you're on call. Customers are reporting that the ecommerce site is acting up - pages loading slowly, the occasional error. Where do you start? At the same place your users do: in the browser.*
+*あなたはオンコール担当です。顧客から、ECサイトの調子がおかしい（ページの読み込みが遅い、ときどきエラーが出る）という報告が届いています。どこから調べ始めますか？ユーザーと同じ場所、つまりブラウザからです。*
 
-Grafana Cloud [Frontend Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/frontend-observability/) gives you that view. It collects telemetry directly from the browser using the [Faro Web SDK](https://grafana.com/docs/grafana-cloud/monitor-applications/frontend-observability/instrument/) - performance metrics, errors, logs, and client-side traces - so you can see what's actually happening across devices, browsers, and networks.
+Grafana Cloud の [Frontend Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/frontend-observability/) を使うと、その視点で状況を把握できます。[Faro Web SDK](https://grafana.com/docs/grafana-cloud/monitor-applications/frontend-observability/instrument/) を使ってブラウザから直接テレメトリ（パフォーマンスメトリクス、エラー、ログ、クライアントサイドのトレース）を収集するため、さまざまなデバイス、ブラウザ、ネットワークで実際に何が起きているのかを確認できます。
 
-Navigate to the **Frontend Observability** app in Grafana and click into the `ecommerce` frontend app.
+Grafana で **Frontend Observability** アプリを開き、`ecommerce` フロントエンドアプリをクリックしてください。
 
-![Frontend Observability - getting started](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.1-frontend-instructions-9575a403b362a518506f05f2ef80c18d.png)
+![Frontend Observability - はじめに](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.1-frontend-instructions-9575a403b362a518506f05f2ef80c18d.png)
 
 ---
 
-## Question 1: Page loads
+## 質問 1: ページロード数
 
-**How many page loads have there been in the last 1 hour?**
+**過去1時間のページロード数はいくつですか？**
 
-Before we go hunting for problems, let's get our baseline. How busy is the app right now? The **Page Loads** panel on the app overview is the at-a-glance traffic indicator - the very first number worth knowing.
+問題を探しに行く前に、まずはベースラインを把握しましょう。今、アプリはどのくらい忙しいでしょうか？アプリ概要にある **Page Loads** パネルは、トラフィックをひと目で確認できる指標です。最初に知っておくべき数字です。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Between **500 and 700** page loads.
+**500〜700** ページロードです。
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Frontend Observability app.
-2. Select the `ecommerce` app.
-3. Read the value in the **Page Loads** panel.
+1. Frontend Observability アプリを開きます。
+2. `ecommerce` アプリを選択します。
+3. **Page Loads** パネルの値を読み取ります。
 
-![Page Loads panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.1-frontend-o11y-4b6bffe8fb566546a8dfd748a1e6896a.png)
+![Page Loads パネル](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.1-frontend-o11y-4b6bffe8fb566546a8dfd748a1e6896a.png)
 
 </details>
 
 ---
 
-## Question 2: Largest Contentful Paint
+## 質問 2: Largest Contentful Paint
 
-**What is the value of the **Largest Contentful Paint (LCP)** core web vital over the past 1 hour?**
+**過去1時間の Core Web Vitals のひとつ、Largest Contentful Paint (LCP) の値はいくつですか？**
 
-Traffic is fine. But how fast does the page actually feel? LCP is one of the Core Web Vitals Frontend Observability surfaces directly on the app overview - it's how Google measures whether your page loads quickly enough to keep users engaged. Page load metrics are a leading indicator of frustration: slow pages are abandoned pages, and abandoned pages are lost orders.
+トラフィックは問題ありません。では、ページは実際にどのくらい速く感じられるでしょうか？LCP は、Frontend Observability がアプリ概要に直接表示する Core Web Vitals のひとつです。ページの読み込みが十分に速く、ユーザーが離脱せずにいられるかを Google が測定する指標です。ページロードのメトリクスは、ユーザーの不満を先取りして示す指標です。遅いページは離脱され、離脱されたページは失注につながります。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Between **1s and 2s**.
+**1秒〜2秒** です。
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Frontend Observability app.
-2. Select the `ecommerce` app.
-3. Read the value in the **LCP** panel.
+1. Frontend Observability アプリを開きます。
+2. `ecommerce` アプリを選択します。
+3. **LCP** パネルの値を読み取ります。
 
-![LCP panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.2-frontend-o11y-ddc9b994d72514c5e6fed10ff79b3460.png)
+![LCP パネル](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.2-frontend-o11y-ddc9b994d72514c5e6fed10ff79b3460.png)
 
 </details>
 
 ---
 
-## Question 3: Pages with errors
+## 質問 3: エラーが発生しているページ
 
-**In the last 1 hour, which pages have errors?**
+**過去1時間で、エラーが発生しているページはどれですか？**
 
-OK, traffic is healthy and LCP is reasonable - but errors are what customers are calling about. The **Page Performance** panel groups requests by page so you can immediately see *where* it's breaking. If every page is throwing errors, that points to something deep in the stack. If only one is, you've narrowed it already.
+トラフィックは健全で、LCP も妥当な値です。しかし、顧客が問い合わせてきているのはエラーについてです。**Page Performance** パネルはリクエストをページごとにまとめて表示するので、*どこで*問題が起きているのかがすぐにわかります。すべてのページでエラーが出ていれば、スタックの深い部分に原因があることを示しています。1ページだけなら、その時点で範囲を絞り込めたことになります。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-All four pages:
+4ページすべてです。
 
 - `/`
 - `/cart`
 - `/cart/checkout/*`
 - `/product/*`
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Frontend Observability app.
-2. Select the `ecommerce` app.
-3. In the **Page Performance** panel, check the error column for each page ID - they all show errors.
+1. Frontend Observability アプリを開きます。
+2. `ecommerce` アプリを選択します。
+3. **Page Performance** パネルで、各ページ ID のエラー列を確認します。すべてのページでエラーが表示されています。
 
-![Page Performance panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.3-frontend-o11y-79bbef75411859a214f9b66f23b06b4f.png)
+![Page Performance パネル](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.3-frontend-o11y-79bbef75411859a214f9b66f23b06b4f.png)
 
 </details>
 
 ---
 
-## Question 4: Example errors *(Optional)*
+## 質問 4: エラーの例 *（任意）*
 
-**What are three examples of errors over the last 1 hour?**
+**過去1時間に発生したエラーの例を3つ挙げてください。**
 
-Every page is broken - that's a strong signal that whatever's wrong is happening on the backend, not in any single frontend route. Before we leave Frontend Observability, let's grab a few of the actual exception strings the browser is sending back. Those errors are clues we'll carry into the next lab.
+すべてのページが壊れています。これは、問題がフロントエンドの特定のルートではなく、バックエンドで起きていることを強く示しています。Frontend Observability を離れる前に、ブラウザから送られてきている実際の例外メッセージをいくつか確認しておきましょう。これらのエラーは、次のラボに持ち込む手がかりになります。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Anything in `{...}` may be substituted for a value - there are too many permutations to list.
+`{...}` の部分には任意の値が入ります。組み合わせが多すぎるため、すべては列挙できません。
 
 - `Response not ok. Status code: 500. Status text: ''. Url: {YOUR_APP_URL}/api/data?contextKeys=telescopes`
 - `Response not ok. Status code: 500. Status text: ''. Url: {YOUR_APP_URL}/api/products?currencyCode={CURRENCY_CODE}`
 - `Response not ok. Status code: 500. Status text: ''. Url: {YOUR_APP_URL}/api/recommendations?productIds={PRODUCT_ID}&sessionId={SESSION_ID}&currencyCode={CURRENCY_CODE}`
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Frontend Observability app.
-2. Select the `ecommerce` app.
-3. Click the **Errors** tab.
-4. See the **Top Errors** panel.
+1. Frontend Observability アプリを開きます。
+2. `ecommerce` アプリを選択します。
+3. **Errors** タブをクリックします。
+4. **Top Errors** パネルを確認します。
 
-![Top Errors panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.4-frontend-o11y-1216b00384c2221e8240d2040c2bf6f7.png)
+![Top Errors パネル](https://grafana.github.io/observability-workshop-breakouts/assets/images/1.4-frontend-o11y-1216b00384c2221e8240d2040c2bf6f7.png)
 
 </details>

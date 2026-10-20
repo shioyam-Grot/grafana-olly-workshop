@@ -2,28 +2,28 @@
 
 # 1.2. Application Observability
 
-*Frontend Observability told us every page on the ecommerce site is throwing 500s. The browser sees the symptom, but the cause is on the server side. Time to walk into the backend and find out which service is the problem.*
+*Frontend Observability から、ECサイトのすべてのページで 500 エラーが発生していることがわかりました。ブラウザで見えているのは症状であり、原因はサーバー側にあります。バックエンドに踏み込んで、どのサービスが問題なのかを突き止めましょう。*
 
-Grafana Cloud [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) is an APM solution built to help your team minimize the mean time to repair (MTTR) for application problems. It uses OpenTelemetry, Grafana Alloy, and pre-built dashboards so every service in your stack is visible from one place.
+Grafana Cloud の [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) は、アプリケーションの問題に対する平均修復時間（MTTR）の短縮を支援する APM ソリューションです。OpenTelemetry、Grafana Alloy、構築済みのダッシュボードを活用し、スタック内のすべてのサービスを1か所で可視化します。
 
-Navigate to the **Application Observability** app in Grafana.
+Grafana で **Application Observability** アプリを開いてください。
 
-![Application Observability - getting started](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.2-app-instructions-7646e4bfc3a9fa3fa80668402e0b2561.png)
+![Application Observability - はじめに](https://grafana.github.io/observability-workshop-breakouts/assets/images/0.2-app-instructions-7646e4bfc3a9fa3fa80668402e0b2561.png)
 
 ---
 
-## Question 1: Service languages
+## 質問 1: サービスの言語
 
-**What languages are used for this demo app?**
+**このデモアプリではどの言語が使われていますか？**
 
-Before troubleshooting, it's useful to know what we're looking at. The **Service Inventory** lists every OpenTelemetry-instrumented service in the app and auto-detects the runtime language. One glance and you know how heterogeneous your stack is.
+トラブルシューティングの前に、何を見ているのかを把握しておくと役立ちます。**Service Inventory** には、アプリ内で OpenTelemetry によって計装されたすべてのサービスが一覧表示され、ランタイムの言語も自動検出されます。ひと目見るだけで、スタックがどれだけ多様な技術で構成されているかがわかります。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-Quite a few:
+かなりたくさんあります。
 
 - Go
 - Java
@@ -36,133 +36,133 @@ Quite a few:
 - Python
 - Rust
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Look at the icons in the **Technology** column - hover an icon if you aren't sure what it represents.
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. **Technology** 列のアイコンを確認します。どのアイコンかわからない場合は、カーソルを合わせてください。
 
-![Services tab with technology icons](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-app-o11y-86fb8ebb05dd1bcc5f9a2b9f0ffa2d21.png)
-
-</details>
-
----
-
-## Question 2: Error rate
-
-**What error rate percentage has the `productcatalogservice` reached over the last 1 hour?**
-
-The Frontend O11y errors mentioned `/api/products` - which strongly implies `productcatalogservice`. Click into that service and you'll see request rate, error rate, and latency right at the top: the three signals you check first when something looks off.
-
-> **Try it:** Find the answer in Grafana before revealing it below.
-
-<details>
-<summary>Show answer</summary>
-
-It can range between **20% and 100%**.
-
-**How to find it:**
-
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Click on `productcatalogservice`.
-4. Hover over the peak in the **Errors** panel.
-
-![Errors panel](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-app-o11y-60072bbc2302e294bac7a6ca8291f805.png)
+![Technology アイコンが表示された Services タブ](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.1-app-o11y-86fb8ebb05dd1bcc5f9a2b9f0ffa2d21.png)
 
 </details>
 
 ---
 
-## Question 3: Error message
+## 質問 2: エラー率
 
-**What error message is the `productcatalogservice` throwing when it errors?**
+**過去1時間で、`productcatalogservice` のエラー率は最大何パーセントに達しましたか？**
 
-A 20-100% error rate is severe. Now we need the actual exception. There are two routes - through the trace waterfall (drilling into a single failing request) or through the service's logs - and they should converge on the same root cause from different angles. Traces and logs are two views of the same incident: a trace tells you "this one request failed and here's the chain," while logs tell you "here's everything the process said out loud."
+Frontend O11y のエラーには `/api/products` が含まれていました。これは `productcatalogservice` が関係していることを強く示唆しています。このサービスをクリックすると、上部にリクエストレート、エラー率、レイテンシが表示されます。何かおかしいと感じたときに最初に確認する3つのシグナルです。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-There are a few answers depending on which path you take:
+**20%〜100%** の範囲で変動します。
 
-- **Traces approach:** `pq: sorry, too many clients already`
-- **Logs approach:**
+**確認方法:**
+
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. `productcatalogservice` をクリックします。
+4. **Errors** パネルのピークにカーソルを合わせます。
+
+![Errors パネル](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.2-app-o11y-60072bbc2302e294bac7a6ca8291f805.png)
+
+</details>
+
+---
+
+## 質問 3: エラーメッセージ
+
+**`productcatalogservice` がエラーになるとき、どのようなエラーメッセージを出していますか？**
+
+20〜100% のエラー率は深刻です。次は実際の例外を確認する必要があります。方法は2つあります。トレースの waterfall から（失敗した1件のリクエストを掘り下げる）か、サービスのログからです。どちらも異なる角度から同じ根本原因にたどり着くはずです。トレースとログは同じインシデントを別の視点から見たものです。トレースは「このリクエストが失敗し、その経路はこうだった」ことを教えてくれ、ログは「プロセスが出力したすべての内容」を教えてくれます。
+
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
+
+<details>
+<summary>答えを表示</summary>
+
+どちらの方法で調べるかによって、答えがいくつかあります。
+
+- **トレースから調べる場合:** `pq: sorry, too many clients already`
+- **ログから調べる場合:**
    - `panic: runtime error: invalid memory address or nil pointer dereference`
    - `pq: sorry, too many clients already`
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Click on `productcatalogservice`.
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. `productcatalogservice` をクリックします。
 
-### Option 1 - Traces approach
+### 方法 1 - トレースから調べる
 
-1.  Within the **Errors** panel, click the **Traces** button.
+1.  **Errors** パネル内の **Traces** ボタンをクリックします。
 
-   ![Errors panel - Traces button](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-1-4b5073430624b09bdc316e08174a9630.png)
-2.  Click any **Trace ID** in the table - they all show error traces from the product catalog service.
+   ![Errors パネル - Traces ボタン](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-1-4b5073430624b09bdc316e08174a9630.png)
+2.  表内の任意の **Trace ID** をクリックします。どれも productcatalogservice のエラートレースです。
 
-   ![Span detail](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-2-e5c8a61b25c4791246dd604aa5c984be.png)
-3.  The trace waterfall appears. Click the `productcatalogservice` span with a red circle next to it.
-4.  Click **Events (2)** and expand both events.
+   ![span の詳細](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-2-e5c8a61b25c4791246dd604aa5c984be.png)
+3.  トレースの waterfall が表示されます。横に赤い丸が付いている `productcatalogservice` の span をクリックします。
+4.  **Events (2)** をクリックし、両方のイベントを展開します。
 
-   ![Events](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-3-86811c15a2afd4c2c7ea13bd4b61a400.png)
-5.  The `exception` and `error` events both have the value `pq: sorry, too many clients already`.
+   ![イベント](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-3-86811c15a2afd4c2c7ea13bd4b61a400.png)
+5.  `exception` イベントと `error` イベントの両方に、値 `pq: sorry, too many clients already` が入っています。
 
-   ![Logs tab](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-4-0ffcaac4b43b01f3e14f08f2500cebab.png)
+   ![Logs タブ](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-4-0ffcaac4b43b01f3e14f08f2500cebab.png)
 
-### Option 2 - Logs approach
+### 方法 2 - ログから調べる
 
-1.  Click the **Logs** tab at the top to see all logs generated by this service.
-2.  You'll see many `pq: sorry, too many clients already` logs and, further down, a stack trace including `panic: runtime error: invalid memory address or nil pointer dereference`.
+1.  上部の **Logs** タブをクリックし、このサービスが出力したすべてのログを表示します。
+2.  `pq: sorry, too many clients already` のログが大量に表示され、さらに下に `panic: runtime error: invalid memory address or nil pointer dereference` を含むスタックトレースがあります。
 
-   ![Logs](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-5-c6f2a5195877e7fcc1f91359ed4aa2e5.png)
+   ![ログ](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.3-app-o11y-5-c6f2a5195877e7fcc1f91359ed4aa2e5.png)
 
 </details>
 
 ---
 
-## Question 4: Erroring endpoint
+## 質問 4: エラーが発生しているエンドポイント
 
-**Which endpoint or endpoints are erroring within the `productcatalogservice`?**
+**`productcatalogservice` の中で、エラーが発生しているエンドポイントはどれですか？**
 
-`pq: sorry, too many clients already` is a Postgres connection-exhaustion error - the service is running out of database connections. But is it happening on every endpoint, or just one? The **Operations** panel breaks the service's traffic down by endpoint so we can localize.
+`pq: sorry, too many clients already` は Postgres の接続枯渇エラーです。サービスがデータベース接続を使い果たしています。しかし、これはすべてのエンドポイントで起きているのでしょうか、それとも1つだけでしょうか？**Operations** パネルでは、サービスのトラフィックがエンドポイントごとに分けて表示されるので、発生箇所を特定できます。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
 `oteldemo.ProductCatalogService/ListProducts`
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Click on `productcatalogservice`.
-4. In the **Operations** panel, look for the only endpoint with a non-zero **Errors** column.
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. `productcatalogservice` をクリックします。
+4. **Operations** パネルで、**Errors** 列が 0 以外になっている唯一のエンドポイントを探します。
 
-![Errored endpoint](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-app-o11y-2b2bd91be4e8f0fc572c23aa77d75e3f.png)
+![エラーが発生しているエンドポイント](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.4-app-o11y-2b2bd91be4e8f0fc572c23aa77d75e3f.png)
 
 </details>
 
 ---
 
-## Question 5: Service interactions
+## 質問 5: サービス間の連携
 
-**What services interact with the `recommendationservice`?**
+**`recommendationservice` と連携しているサービスはどれですか？**
 
-While we're here, let's get the lay of the land. The recommendation service is sitting next to productcatalog in the call graph - what calls it, and what does it call? The service detail view splits this into **Inbound** (callers) and **Outbound & databases** (dependencies), and the [Service map](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) tab gives you the same picture as a graph.
+ついでに全体像も把握しておきましょう。recommendationservice は、呼び出しグラフ上で productcatalogservice の隣にあります。何がこのサービスを呼び出し、このサービスは何を呼び出しているのでしょうか？サービスの詳細画面では、これが **Inbound**（呼び出し元）と **Outbound & databases**（依存先）に分けて表示されます。また、[Service map](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/) タブでは同じ情報をグラフで確認できます。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-There are three:
+次の3つです。
 
 - **Outbound & databases:**
    - `flagd`
@@ -171,17 +171,17 @@ There are three:
    - `frontend`
    - `chatservice`
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Click on `recommendationservice`.
-4. Downstream services are in the **Outbound & databases** panel.
-5. Upstream services are in the **Inbound** panel.
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. `recommendationservice` をクリックします。
+4. downstream のサービスは **Outbound & databases** パネルに表示されます。
+5. upstream のサービスは **Inbound** パネルに表示されます。
 
-![Service interactions](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-app-o11y-1-e5b8b6efc939a5a968a352f6ab41921d.png)
+![サービス間の連携](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-app-o11y-1-e5b8b6efc939a5a968a352f6ab41921d.png)
 
-You can also see this from the **Service map** tab.
+**Service map** タブからも確認できます。
 
 ![Service map](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.5-app-o11y-2-50ed8069331ebe6ffd0371e593e915e0.png)
 
@@ -189,26 +189,26 @@ You can also see this from the **Service map** tab.
 
 ---
 
-## Question 6: Pod name *(Optional)*
+## 質問 6: Pod 名 *（任意）*
 
-**What's the pod name running the product catalog service?**
+**productcatalogservice を実行している Pod の名前は何ですか？**
 
-Application Observability ties OTel telemetry back to Kubernetes via attributes like `k8s.pod.name`. That's how you jump from "service X is broken" to "pod Y is the one to look at." Grab the pod name now - we'll use it as the bridge into the next lab.
+Application Observability は、`k8s.pod.name` などの属性を使って OTel のテレメトリを Kubernetes に結び付けています。これにより、「サービス X が壊れている」から「調べるべきは Pod Y だ」へとすぐに移れます。ここで Pod 名を控えておきましょう。次のラボへの橋渡しとして使います。
 
-> **Try it:** Find the answer in Grafana before revealing it below.
+> **試してみよう:** 下の答えを開く前に、Grafana で答えを探してみましょう。
 
 <details>
-<summary>Show answer</summary>
+<summary>答えを表示</summary>
 
-It will change over time as pods restart, but starts with `productcatalogservice-...` - for example `productcatalogservice-58dffdf697-mjpmw`.
+Pod が再起動するたびに名前は変わりますが、`productcatalogservice-...` で始まります。たとえば `productcatalogservice-58dffdf697-mjpmw` のような名前です。
 
-**How to find it:**
+**確認方法:**
 
-1. Open the Application Observability app.
-2. Make sure you're on the **Services** tab.
-3. Click on `productcatalogservice`.
-4. Click the **Kubernetes** button and find the `k8s.pod.name` entry.
+1. Application Observability アプリを開きます。
+2. **Services** タブが選択されていることを確認します。
+3. `productcatalogservice` をクリックします。
+4. **Kubernetes** ボタンをクリックし、`k8s.pod.name` の項目を探します。
 
-![Pod name](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-app-o11y-29defb14d258aa09d1702ce42052915a.png)
+![Pod 名](https://grafana.github.io/observability-workshop-breakouts/assets/images/2.6-app-o11y-29defb14d258aa09d1702ce42052915a.png)
 
 </details>

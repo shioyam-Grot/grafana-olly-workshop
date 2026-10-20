@@ -1,21 +1,21 @@
 <!-- Source: https://grafana.github.io/observability-workshop-breakouts/lab2/ -->
 
-# Lab 2 - Root Cause Analysis with Knowledge Graph
+# Lab 2 - Knowledge Graph による根本原因分析
 
-In this lab, you'll work through troubleshooting scenarios using **Grafana Cloud Knowledge Graph** - specifically **Entity Graph** and **RCA Workbench**.
+このラボでは、**Grafana Cloud Knowledge Graph**、特に **Entity Graph** と **RCA Workbench** を使ってトラブルシューティングのシナリオに取り組みます。
 
-The idea is to show you things you can't easily do with the apps from Lab 1, and how some of those same activities become much easier with Knowledge Graph.
+Lab 1 のアプリでは簡単にはできないことや、同じ作業が Knowledge Graph を使うとどれだけ簡単になるかを体験していただくのが狙いです。
 
-## Instructions
+## 手順
 
-Go to the URL in the slides where you have access to a Grafana Cloud stack with Knowledge Graph enabled.
+スライドに記載された URL にアクセスしてください。Knowledge Graph が有効になった Grafana Cloud スタックにアクセスできます。
 
-You have 20 minutes to work through the questions.
+質問に取り組む時間は20分です。
 
-> **TIP**
+> **ヒント**
 >
-> Try each question on your own first. The **Show answer** block under each question reveals the walkthrough and screenshots.
+> まずは自分で各質問に挑戦してみてください。各質問の下にある **答えを表示** ブロックを開くと、手順の解説とスクリーンショットが表示されます。
 
-- **[2.1. Using Knowledge Graph](knowledge-graph.md)**: In Lab 1 we walked the trail manually - Frontend O11y → App O11y → Kubernetes Monitoring - hopping between apps to follow the breadcrumbs. It worked, but it was a lot of clicks. Now let's see what the same investigation looks like when the relationships between everything are already mapped for us.
+- **[2.1. Knowledge Graph を使う](knowledge-graph.md)**: Lab 1 では、Frontend O11y → App O11y → Kubernetes Monitoring と、アプリを行き来しながら手がかりを手作業でたどりました。うまくいきましたが、クリック数はかなり多くなりました。今度は、あらゆるものの関係性があらかじめマッピングされている状態で、同じ調査がどのように進むかを見てみましょう。
 
-- **[2.2. Compare with the classic observability apps](compare-with-classic-apps.md)**: You just answered a series of questions with Knowledge Graph in a few clicks. Now try the same questions with only the Lab 1 toolkit - App O11y, K8s Monitoring - and time yourself.
+- **[2.2. 従来の Observability アプリと比較する](compare-with-classic-apps.md)**: Knowledge Graph を使って、いくつかの質問に数クリックで答えられました。今度は同じ質問に Lab 1 のツール（App O11y、K8s Monitoring）だけで答えてみて、かかった時間を計ってみましょう。
